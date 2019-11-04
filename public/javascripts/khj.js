@@ -294,78 +294,212 @@ var WikiaPhotoGalleryView = {
 var slides = document.querySelectorAll('.wikiaPhotoGallery-slider-body .description');
 var slides2 = document.querySelectorAll('.wikiaPhotoGallery-slider-body .nav');
 var slides3 = document.querySelectorAll('#slides .slide');
-var currentSlide = 0;
-var currentSlide2 = 0;
-var currentSlide3 = 0;
-var currentSlide01 = 0;
-var currentSlide02 = 0;
-var currentSlide03 = 0;
+var slideIndex = 1;
+var slideshowContainer;
+// var currentSlide =0;
+// var currentSlide2 =0;
+// var currentSlide3 =0;
+// var slideInterval = setInterval(function(){nextSlide(slideIndex)},4000);
+
+var myTimer;
+
+window.addEventListener("load",function() {
+    nextSlide(slideIndex);
+   myTimer = setInterval(function(){plusSlides(1)}, 4000);
+
+    //COMMENT OUT THE LINE BELOW TO KEEP ARROWS PART OF MOUSEENTER PAUSE/RESUME
+    slideshowContainer = document.getElementsByClassName('nav')[0];
+
+    slideshowContainer.addEventListener('mouseenter', pause)
+    slideshowContainer.addEventListener('mouseleave', resume)
+
+
+})
+pause = () => {
+    clearInterval(myTimer);
+}
+
+resume = () =>{
+    clearInterval(myTimer);
+    myTimer = setInterval(function(){plusSlides(slideIndex)}, 4000);
+}
+
+// NEXT AND PREVIOUS CONTROL
+function plusSlides(n) {
+    clearInterval(myTimer);
+    if (n < 0) {
+        nextSlide(slideIndex -= 1);
+    } else {
+        nextSlide(slideIndex += 1);
+    }
+    if (n === -1){
+        myTimer = setInterval(function(){plusSlides(n + 2)}, 4000);
+    } else {
+        myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
+    }
+}
 
 
 
+function currentSlideX(n) {
+    clearInterval(myTimer);
+    myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
+    nextSlide(slideIndex = n);
+}
 
-var slideInterval = setInterval(nextSlide, 4000);
-
-function nextSlide() {
-
-
-
-    slides3[currentSlide3].className = 'slide';
-    slides3[currentSlide3].className = 'slide';
-    slides[currentSlide].className = 'description';
-    slides[currentSlide].className = 'description';
-    slides[currentSlide].style.display = 'none';
-    slides2[currentSlide2].className = 'nav';
-    slides2[currentSlide2].className = 'nav';
-    //  var sliderElem = $('#wikiaPhotoGallery-slider-body-' + currentSlide2);
-    currentSlide3 = (currentSlide3 + 1) % slides3.length;
-    currentSlide = (currentSlide + 1) % slides.length;
-    currentSlide2 = (currentSlide2 + 1) % slides2.length;
-    slides3[currentSlide3].className = 'slide showing';
-    slides[currentSlide].className = 'description showing';
-    slides[currentSlide].style.display = 'block';
-    slides2[currentSlide2].className = 'nav selected';
-
-};
-function currentSlideX(latitidto) {
-
-    if (latitidto != 0) {
-      clearInterval(slideInterval);
-    }else
-
-
-    console.log(latitidto);
-    currentSlide = latitidto;
-    currentSlide2 = latitidto;
-    currentSlide3 = latitidto;
-    slides3[currentSlide3].className = 'slide';
-    slides3[currentSlide3].className = 'slide';
-    slides[currentSlide].className = 'description';
-    slides[currentSlide].className = 'description';
-    slides[currentSlide].style.display = 'none';
-    slides2[currentSlide2].className = 'nav';
-    slides2[currentSlide2].className = 'nav';
-
-
-    currentSlide03 = (currentSlide3 - 1) % slides3.length;
-    currentSlide01 = (currentSlide - 1) % slides.length;
-    currentSlide02 = (currentSlide2 - 1) % slides2.length;
-
-    slides3[currentSlide03].className = 'slide ';
-    slides[currentSlide01].className = 'description ';
-    slides[currentSlide01].style.display = 'none';
-    slides2[currentSlide02].className = 'nav ';
-
-
-
-    currentSlide3 = (currentSlide3 + 0) % slides3.length;
-    currentSlide = (currentSlide + 0) % slides.length;
-    currentSlide2 = (currentSlide2 + 0) % slides2.length;
-
-    slides3[currentSlide3].className = 'slide showing';
-    slides[currentSlide].className = 'description showing';
-    slides[currentSlide].style.display = 'block';
-    slides2[currentSlide2].className = 'nav selected';
+function nextSlide(n) {
+    var i;
+    // var slides = document.getElementsByClassName("mySlides");
+    // var dots = document.getElementsByClassName("dot");
+        if (n > slides3.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides3.length}
+    for (i = 0; i < slides3.length; i++) {
+     //   slides3[i].style.display = "none";
+        slides3[i].className = 'slide ';
+    }
+    for (i = 0; i < slides2.length; i++) {
+        slides2[i].className = slides2[i].className.replace(" selected", "");
+    }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].className = slides[i].className.replace(" showing", "");
+        slides[i].style.display = "none";
+    }
+    // slides3[slideIndex-1].style.display = "block";
+    slides3[slideIndex-1].className = 'slide showing';
+    slides2[slideIndex-1].className += " selected";
+    slides[slideIndex-1].className = 'description showing';
+    slides[slideIndex-1].style.display = 'block';
 
 
 }
+
+
+//-------------
+//
+//
+// var myTimer;
+//
+// var slideshowContainer;
+//
+// window.addEventListener("load",function() {
+//     showSlides(slideIndex);
+//     myTimer = setInterval(function(){plusSlides(1)}, 4000);
+//
+//     //COMMENT OUT THE LINE BELOW TO KEEP ARROWS PART OF MOUSEENTER PAUSE/RESUME
+//     slideshowContainer = document.getElementsByClassName('slideshow-inner')[0];
+//
+//     //UNCOMMENT OUT THE LINE BELOW TO KEEP ARROWS PART OF MOUSEENTER PAUSE/RESUME
+//     // slideshowContainer = document.getElementsByClassName('slideshow-container')[0];
+//
+//     slideshowContainer.addEventListener('mouseenter', pause)
+//     slideshowContainer.addEventListener('mouseleave', resume)
+// })
+//
+// // NEXT AND PREVIOUS CONTROL
+// function plusSlides(n){
+//     clearInterval(myTimer);
+//     if (n < 0){
+//         showSlides(slideIndex -= 1);
+//     } else {
+//         showSlides(slideIndex += 1);
+//     }
+//
+//     //COMMENT OUT THE LINES BELOW TO KEEP ARROWS PART OF MOUSEENTER PAUSE/RESUME
+//
+//     if (n === -1){
+//         myTimer = setInterval(function(){plusSlides(n + 2)}, 4000);
+//     } else {
+//         myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
+//     }
+// }
+//
+// //Controls the current slide and resets interval if needed
+// function currentSlide(n){
+//     clearInterval(myTimer);
+//     myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
+//     showSlides(slideIndex = n);
+// }
+//
+// function showSlides(n){
+//     var i;
+//     var slides = document.getElementsByClassName("mySlides");
+//     var dots = document.getElementsByClassName("dot");
+//     if (n > slides.length) {slideIndex = 1}
+//     if (n < 1) {slideIndex = slides.length}
+//     for (i = 0; i < slides.length; i++) {
+//         slides[i].style.display = "none";
+//     }
+//     for (i = 0; i < dots.length; i++) {
+//         dots[i].className = dots[i].className.replace(" active", "");
+//     }
+//     slides[slideIndex-1].style.display = "block";
+//     dots[slideIndex-1].className += " active";
+// }
+//
+// pause = () => {
+//     clearInterval(myTimer);
+// }
+//
+// resume = () =>{
+//     clearInterval(myTimer);
+//     myTimer = setInterval(function(){plusSlides(slideIndex)}, 4000);
+// }
+
+
+//
+// function nextSlide() {
+//
+//
+//
+//     slides3[currentSlide3].className = 'slide';
+//     slides3[currentSlide3].className = 'slide';
+//     slides[currentSlide].className = 'description';
+//     slides[currentSlide].className = 'description';
+//     slides[currentSlide].style.display = 'none';
+//     slides2[currentSlide2].className = 'nav';
+//     slides2[currentSlide2].className = 'nav';
+//     //  var sliderElem = $('#wikiaPhotoGallery-slider-body-' + currentSlide2);
+//     currentSlide3 = (currentSlide3 + 1) % slides3.length;
+//     currentSlide = (currentSlide + 1) % slides.length;
+//     currentSlide2 = (currentSlide2 + 1) % slides2.length;
+//     slides3[currentSlide3].className = 'slide showing';
+//     slides[currentSlide].className = 'description showing';
+//     slides[currentSlide].style.display = 'block';
+//     slides2[currentSlide2].className = 'nav selected';
+//
+// };
+//
+//
+// function currentSlideX(latitidto) {
+//
+//     if (latitidto != 0) {
+//       clearInterval(slideInterval);
+//     }else
+//
+//
+//     console.log(latitidto);
+//     currentSlide = latitidto;
+//     currentSlide2 = latitidto;
+//     currentSlide3 = latitidto;
+//     slides3[currentSlide3].className = 'slide';
+//     slides3[currentSlide3].className = 'slide';
+//     slides[currentSlide].className = 'description';
+//     slides[currentSlide].className = 'description';
+//     slides[currentSlide].style.display = 'none';
+//     slides2[currentSlide2].className = 'nav';
+//     slides2[currentSlide2].className = 'nav';
+//
+//
+//
+//
+//     currentSlide3 = (currentSlide3 + 1) % slides3.length;
+//     currentSlide = (currentSlide + 1) % slides.length;
+//     currentSlide2 = (currentSlide2 + 1) % slides2.length;
+//
+//     slides3[currentSlide3].className = 'slide showing';
+//     slides[currentSlide].className = 'description showing';
+//     slides[currentSlide].style.display = 'block';
+//     slides2[currentSlide2].className = 'nav selected';
+//
+//
+// }

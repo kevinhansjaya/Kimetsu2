@@ -106,6 +106,11 @@
     right: 305px
 }
 
+.active,
+.wikiaPhotoGallery-slider-body .horizontal .wikiaPhotoGallery-slider-0 .nav:hover {
+background-color: blue;
+}
+
 .wikiaPhotoGallery-slider-body .horizontal .wikiaPhotoGallery-slider-1 .wikiaPhotoGallery-slider {
     left: 670px
 }
